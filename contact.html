@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Slot - Apex Sports Arena</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html" class="logo">⚡ APEX <span>ARENA</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="services.html">Courts & Pricing</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html" class="active">Book a Slot</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Slot Reservation & Enquiry</h2>
+    <div class="form-container">
+      <form id="bookingForm">
+        <div class="form-group">
+          <label for="name">Full Name / Team Name</label>
+          <input type="text" id="name" name="name" required placeholder="e.g. Alex Rivera or Apex Strikers">
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" required placeholder="e.g. +1 555-0199">
+        </div>
+
+        <div class="form-group">
+          <label for="sport">Select Sport / Court</label>
+          <select id="sport" name="sport" required>
+            <option value="">-- Choose Court --</option>
+            <option value="5-a-Side Futsal">5-a-Side Futsal Turf</option>
+            <option value="Box Cricket">Box Cricket Pitch</option>
+            <option value="Indoor Badminton">Indoor Badminton Court</option>
+            <option value="Basketball / Pickleball">Basketball / Pickleball Court</option>
+            <option value="Corporate Event Booking">Corporate Tournament Booking</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="slotDate">Preferred Date & Time</label>
+          <input type="datetime-local" id="slotDate" name="slotDate" required>
+        </div>
+
+        <div class="form-group">
+          <label for="notes">Special Requests / Equipment Needs</label>
+          <textarea id="notes" name="notes" placeholder="e.g. Need extra footballs, bibs, or referee assistance..."></textarea>
+        </div>
+
+        <button type="submit" class="btn" id="submitBtn">Confirm Booking Request</button>
+      </form>
+
+      <div id="statusMessage"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Apex Sports Arena. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
+    const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+    const form = document.getElementById('bookingForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusMessage = document.getElementById('statusMessage');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      if (SCRIPT_URL === "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE") {
+        alert("Please paste your Google Apps Script Web App URL into contact.html first!");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+      statusMessage.style.display = 'none';
+
+      const formData = new FormData(form);
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        statusMessage.textContent = 'Slot booking request received! We will call you shortly to confirm.';
+        statusMessage.className = 'success';
+        statusMessage.style.display = 'block';
+        form.reset();
+      })
+      .catch(error => {
+        statusMessage.textContent = 'Submission failed. Please check your connection and try again.';
+        statusMessage.className = 'error';
+        statusMessage.style.display = 'block';
+        console.error('Error!', error.message);
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Confirm Booking Request';
+      });
+    });
+  </script>
+</body>
+</html>
